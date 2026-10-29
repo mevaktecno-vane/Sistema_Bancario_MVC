@@ -5,10 +5,10 @@ import flet as ft
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from src.dao_personal import DAOPersonal
-from src.home_crear_cliente import render_gestion_cliente
-from src.navegacion import ir_a
-from src.sesion import Sesion
+from src.persistencia.dao_personal import DAOPersonal
+from src.views.home_crear_cliente import render_gestion_cliente
+from src.controllers.navegacion import ir_a
+from src.views.sesion import Sesion
 
 # Paleta de colores - Capital Bank Desktop Neon
 BG_FONDO = "#0c0b11"
