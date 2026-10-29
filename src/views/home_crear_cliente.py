@@ -5,10 +5,10 @@ import flet as ft
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from src.cliente import Cliente
-from src.dao_personal import DAOPersonal
-from src.navegacion import ir_a
-from src.sesion import Sesion
+from src.models.cliente import Cliente
+from src.persistencia.dao_personal import DAOPersonal
+from src.controllers.navegacion import ir_a
+from src.views.sesion import Sesion
 
 
 # Temporal: subclase del DAO con lo que el panel necesita hasta que
@@ -41,16 +41,13 @@ def _resolver_tipo(nombre_tipo):
     try:
         return _dao.guardar_tipo_cuenta(nombre_tipo)
     except ValueError:
-        from sqlalchemy import select
-        from src.models import TipoCuentaModel
-
-        with _dao.connect() as s:
-            row = s.scalar(
-                select(TipoCuentaModel).where(
-                    TipoCuentaModel.nombre == nombre_tipo
-                )
-            )
-            return row.id_tipo_cuenta if row is not None else None
+        from src.persistencia.dao import TipoCuentaModel
+        with _dao.session_factory() as session:
+            from sqlalchemy import select
+            tipo = session.execute(
+                select(TipoCuentaModel).where(TipoCuentaModel.nombre == nombre_tipo)
+            ).scalar_one_or_none()
+            return tipo.id_tipo_cuenta if tipo else None
 
 
 def render_gestion_cliente(page: ft.Page, dni=None):
@@ -61,7 +58,7 @@ def render_gestion_cliente(page: ft.Page, dni=None):
 
     # Imports diferidos: home_personal importa este módulo a nivel superior,
     # así se evita el ciclo home_personal <-> home_crear_cliente.
-    from src.home_personal import _aviso, _es_personal, _ir_login
+    from src.views.home_personal import _aviso, _es_personal, _ir_login
 
     # =====================================================
     # CONFIGURACIÓN GENERAL
@@ -519,7 +516,7 @@ def render_gestion_cliente(page: ft.Page, dni=None):
             )
 
     def _volver(e):
-        from src.home_personal import render_home_personal
+        from src.views.home_personal import render_home_personal
         ir_a(
             page,
             render_home_personal,

@@ -5,10 +5,10 @@ import flet as ft
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from src.cuenta import Cuenta
-from src.cuenta_ahorro import CuentaAhorro
-from src.navegacion import ir_a, crear_bottom_nav
-from src.sesion import Sesion
+from src.models.cuenta import Cuenta
+from src.models.cuenta_ahorro import CuentaAhorro
+from src.controllers.navegacion import ir_a, crear_bottom_nav
+from src.views.sesion import Sesion
 
 BG_FONDO = "#0a0a0f"
 BG_TARJETA = "#181820"

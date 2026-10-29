@@ -1,82 +1,57 @@
-# 🏦 Sistema Bancario - Refactoring, Testing e Integración Continua
+# 🏦 Capital Bank - Sistema de Gestión Integrado (Arquitectura MVC)
 
-Proyecto integrador para las asignaturas **Refactoring y Testing** e **Integración y Entrega Continua**.
+Este repositorio contiene la refactorización arquitectónica del sistema bancario **Capital Bank**, migrando de una estructura monolítica a un patrón **Modelo-Vista-Controlador (MVC)** desacoplado en Python y Flet, validado mediante pruebas automatizadas con `pytest`.
 
-## 👥 Integrantes y Equipo de Desarrollo
-* **Mara Vanesa San Martín** (Tests de Dominio, Tests de Integración DAO, CI/CD)
-* **Daniel Ricardo González** (ABM de transacciones y front de personal)
-* **Erika Muñoz** (Integración)
-* **Cristian Testaseca** (Base de Datos y DAO)
-* **Andrés Verdún** (Gestión de clientes desde Backend)
-* **Romina Marín** (Front Login y cliente)
-* **Valentina San Martín** (Template)
-* **Zafiro Ávila** (Front "Operar" e "Historial" de cliente)
+---
 
-## 🎯 Objetivos del Proyecto
-* **Refactoring & Código Limpio:** Aplicación de principios SOLID (SRP, OCP, LSP, ISP, DIP), eliminación de Code Smells y lectura tipo periódico (*Extract Method*).
-* **Testing Automatizado:** Suite integral unitaria y de integración usando `pytest` con arquitectura Arrange-Act-Assert (AAA) y fixtures.
-* **Persistencia Desacoplada:** Manejo de DAO (Data Access Object) mediante SQLAlchemy ORM y SQLite (con soporte en memoria para tests).
-* **Integración Continua (CI/CD):** Pipeline automatizado con **GitHub Actions** que ejecuta la suite de pruebas tras cada `push` y `Pull Request`.
+## 📐 Estructura del Proyecto
 
-## 🏛️ Arquitectura y Principios SOLID
-1. **Single Responsibility Principle (SRP):** Desacoplamiento total entre la Lógica de Negocio (`src/cliente.py`, `src/cuenta.py`, etc.), la Persistencia (`src/dao.py`, `src/models.py`) y la Presentación (`app_banco.py`).
-2. **Liskov Substitution Principle (LSP):** La clase `CuentaAhorro` extiende de `Cuenta` respetando estrictamente los contratos y comportamiento de la clase base.
-3. **Inversión de Dependencias & DAO:** Uso de `DAO(":memory:")` para aislar completamente las pruebas de integración sin afectar la base de datos de producción.
+El código fuente ha sido físicamente redistribuido en el directorio raíz respetando el aislamiento de responsabilidades:
 
-## 🧪 Pruebas Automatizadas (`pytest`)
+```text
+sistema_bancario_mvc/
+├── src/
+│   ├── models/            # Domain Models (Python Puro: Persona, Cliente, Cuenta, etc.)
+│   ├── persistencia/      # Data Access Layer (SQLAlchemy ORM & DAO Pattern)
+│   ├── controllers/       # Controller Layer (Mediadores y orquestadores de negocio)
+│   └── views/             # View Layer (Interfaces gráficas reactivas con Flet)
+├── tests/                 # Suite de pruebas unitarias e integración con pytest
+├── main.py                # Punto de entrada / Interruptor general de la app
+├── conftest.py            # Fixtures de base de datos en memoria para testing
+└── README.md
 
-El proyecto cuenta con una suite integral dividida en dos niveles de testing que suman un total de **47 casos de prueba automatizados** (44 activos en verde y 3 omitidos temporalmente a la espera de merges externos):
+🛡️ Especificaciones Técnicas y Reglas de Aislamiento
+Para asegurar la mantenibilidad, escalabilidad y testeabilidad del software, se implementaron estrictamente tres capas autónomas:
 
-### 1. Tests Unitarios (Dominio de Negocio)
-* `tests/test_autenticacion.py`: Autenticación segura de usuarios y gestión de sesiones.
-* `tests/test_persona.py`: Validaciones de la clase base `Persona`, formato de DNI y hashing de contraseñas.
-* `tests/test_cliente.py`: Validaciones de formato, datos requeridos e integridad de la entidad `Cliente`.
-* `tests/test_empleado.py`: Comportamiento, atributos y asignación de legajos/sucursales para `Empleado`.
-* `tests/test_cuenta.py`: Depósitos, retiros, control de saldo y captura de `SaldoInsuficienteError`.
-* `tests/test_cuenta_ahorro.py`: Cálculo de tasas de interés y validación de herencia Liskov (LSP).
-* `tests/test_transaccion.py`: Historial de operaciones, marcas de tiempo (`datetime`) y validaciones de tipo/monto.
-* `tests/test_tarjeta.py`: Compras, pagos y control de cupo con `LimiteExcedidoError`.
-* `tests/test_navegacion.py`: Flujos de navegación e interacción lógica en la interfaz Flet.
+1. Capa de Modelo (src/models/ y src/persistencia/)
+Dominio Puro (src/models/): Contiene las clases Persona, Cliente, Cuenta, CuentaAhorro y Transaccion. Alberga las reglas de negocio (algoritmos de saldos, validaciones de dominio).
 
-### 2. Tests de Integración (Persistencia & DAO)
-* `tests/test_dao_schema.py`: Validación del esquema relacional en SQLite, claves foráneas (`PRAGMA foreign_keys=ON`) y mapeo SQLAlchemy ORM.
-* `tests/test_propuesta.py`: Integración completa de flujos de depósitos, retiros e intereses con persistencia aislada mediante base de datos en memoria (`DAO(":memory:")`).
+Persistencia (src/persistencia/): Mapeo relacional (models.py con SQLAlchemy) y patrón de acceso a datos (dao.py). Abstrae la base de datos física (SQLite) y en memoria (:memory:).
 
-## 🚀 Instalación y Ejecución Local
+Regla de Aislamiento Estricto: Prohibición absoluta de import flet o cualquier dependencia de la interfaz gráfica.
 
-1. Clonar el repositorio
-```bash
-git clone [https://github.com/mevaktecno-vane/sistema_bancario.git](https://github.com/mevaktecno-vane/sistema_bancario.git)
-cd sistema_bancario
+2. Capa de Control (src/controllers/)
+Contiene los mediadores orquestadores (autenticacion.py, navegacion.py).
 
-2. Crear y activar el Entorno Virtual (venv)
-PowerShell
-# En Windows (PowerShell)
-python -m venv venv
-.\venv\Scripts\Activate.ps1
+Intercepta las acciones de la interfaz visual, procesa los parámetros, invoca a la capa de Modelo/DAO y gestiona transacciones.
 
-# En Linux/macOS
-python3 -m venv venv
-source venv/bin/activate
+Envuelve las operaciones dentro de bloques try/except para capturar alertas de negocio (ej. SaldoInsuficienteError) y guiar la mutación reactiva sin colapsar la aplicación.
 
-3. Instalar dependencias
-Bash
-pip install -r requirements.txt
+3. Capa de Vista (src/views/)
+Interfaces visuales desarrolladas con Flet (login.py, sesion.py, vista_gestion_clientes.py).
 
-4. Ejecutar la suite de pruebas
-Bash
-# Correr todos los tests unitarios e integrativos
+Su función es estrictamente renderizar la interfaz y capturar eventos de usuario (on_click).
+
+Regla de Aislamiento Estricto: Prohibido realizar cálculos matemáticos de saldos, reglas de negocio o consultas SQL directas dentro de la UI.
+
+🧪 Pruebas Automatizadas (Testing Headless)
+Gracias al estricto desacoplamiento de la capa de Modelo respecto a la interfaz visual, la lógica del sistema y el acceso a datos pueden ser auditados de manera 100% automatizada en modo headless (sin levantar la interfaz gráfica).
+
+Resultados de la Suite de Pruebas:
+Estado: 44 PASSED, 3 SKIPPED (47 tests recolectados).
+
+Cobertura: Pruebas unitarias de dominio (test_cliente.py, test_cuenta.py, test_transaccion.py), persistencia (test_dao_schema.py) y controladores (test_autenticacion.py).
+
+Ejecución de Tests:
+Para correr la suite de pruebas completa en la terminal, asegurate de tener activo el entorno virtual y ejecutá:
 pytest
-
-# Correr con reporte detallado de cobertura
-pytest --cov=src -v
-
-5. Ejecutar la Aplicación
-Bash
-# Interfaz gráfica principal (Flet)
-python main.py
-⚙️ Integración Continua (CI/CD)
-El repositorio cuenta con un workflow de GitHub Actions configurado en .github/workflows/ci.yml. En cada push a cualquier rama o apertura de Pull Request, el servidor de CI:
-1.	Configura el entorno Python aislado.
-2.	Instala las dependencias del requirements.txt.
-3.	Ejecuta la suite completa de pytest asegurando que no se introduzcan regresiones a main.
