@@ -16,7 +16,8 @@ from typing import List, Tuple
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 
-from src.persistencia.dao import DAO, pwd_context, ClienteModel, PersonaModel, CuentaModel
+from src.persistencia.dao import DAO, pwd_context
+from src.persistencia.models import ClienteModel, CuentaModel, PersonaModel
 
 
 class DAOPersonal(DAO):

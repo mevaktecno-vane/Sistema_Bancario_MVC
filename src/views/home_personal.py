@@ -3,7 +3,7 @@ import sys
 
 import flet as ft
 
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 from src.persistencia.dao_personal import DAOPersonal
 from src.views.home_crear_cliente import render_gestion_cliente
@@ -30,7 +30,7 @@ def _es_personal():
 
 
 def _ir_login(page):
-    from src.login import render_login
+    from src.views.login import render_login
     ir_a(page, render_login)
 
 
@@ -342,7 +342,7 @@ def render_home_personal(page: ft.Page):
 
 
 if __name__ == "__main__":
-    from src.sesion import Sesion
+    from src.views.sesion import Sesion
     Sesion.iniciar({
         "dni": "22233344",
         "rol": "personal",

@@ -5,11 +5,11 @@ import flet as ft
 
 sys.path.insert(
     0,
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 )
 
-from src.dao import DAO
-from src.gestion_clientes import (
+from src.persistencia.dao import DAO
+from src.controllers.gestion_clientes import (
     alta_cliente,
     alta_cuenta,
     editar_cliente,

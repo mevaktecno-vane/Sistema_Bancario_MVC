@@ -4,7 +4,7 @@ import sys
 
 import flet as ft
 
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 from src.controllers.autenticacion import Autenticacion
 from src.persistencia.dao import DAO

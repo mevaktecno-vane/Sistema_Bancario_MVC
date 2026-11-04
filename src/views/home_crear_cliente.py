@@ -3,7 +3,7 @@ import sys
 
 import flet as ft
 
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 from src.models.cliente import Cliente
 from src.persistencia.dao_personal import DAOPersonal
@@ -41,7 +41,7 @@ def _resolver_tipo(nombre_tipo):
     try:
         return _dao.guardar_tipo_cuenta(nombre_tipo)
     except ValueError:
-        from src.persistencia.dao import TipoCuentaModel
+        from src.persistencia.models import TipoCuentaModel
         with _dao.session_factory() as session:
             from sqlalchemy import select
             tipo = session.execute(
@@ -79,7 +79,7 @@ def render_gestion_cliente(page: ft.Page, dni=None):
 
     if not es_nuevo and datos is None:
         _aviso(page, "No existe un cliente con ese DNI.", ok=False)
-        from src.home_personal import render_home_personal
+        from src.views.home_personal import render_home_personal
         ir_a(page, render_home_personal)
         return
 
