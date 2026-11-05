@@ -1,34 +1,48 @@
 Directory structure:
-└── mevaktecno-vane-sistema_bancario/
+└── mevaktecno-vane-sistema_bancario_mvc/
     ├── README.md
-    ├── DAO.md
-    ├── ejemplo_dao.py
+    ├── Estado
     ├── INTEGRACION_DAO.md
+    ├── legacy_main.py
     ├── main.py
-    ├── main_legado.py
     ├── programa_dao.py
     ├── requirements.txt
     ├── docs/
     │   ├── diagrama_entidad_relacion.mmd
-    │   └── generar_diagrama_er.py
+    │   ├── generar_diagrama_er.py
+    │   └── gitingest.txt
     ├── src/
     │   ├── __init__.py
-    │   ├── app_banco.py
-    │   ├── cliente.py
-    │   ├── cuenta.py
-    │   ├── cuenta_ahorro.py
-    │   ├── dao.py
-    │   ├── datos_demo.py
-    │   ├── exportar_datos_a_pdf.py
-    │   ├── gestion-bancaria.py
-    │   ├── home_cliente.py
-    │   ├── home_personal.py
-    │   ├── login.py
-    │   ├── models.py
-    │   ├── navegacion.py
-    │   ├── sesion.py
-    │   ├── tarjeta.py
-    │   └── transaccion.py
+    │   ├── controllers/
+    │   │   ├── autenticacion.py
+    │   │   ├── gestion_clientes.py
+    │   │   ├── navegacion.py
+    │   │   └── servicios_movimientos.py
+    │   ├── legacy/
+    │   │   ├── legacy_app_banco.py
+    │   │   ├── legacy_datos_demo.py
+    │   │   └── legacy_exportar_pdf.py
+    │   ├── models/
+    │   │   ├── cliente.py
+    │   │   ├── cuenta.py
+    │   │   ├── cuenta_ahorro.py
+    │   │   ├── empleado.py
+    │   │   ├── persona.py
+    │   │   └── transaccion.py
+    │   ├── persistencia/
+    │   │   ├── dao.py
+    │   │   ├── dao_cliente.py
+    │   │   ├── dao_personal.py
+    │   │   └── models.py
+    │   └── views/
+    │       ├── home_cliente.py
+    │       ├── home_crear_cliente.py
+    │       ├── home_historial.py
+    │       ├── home_operaciones.py
+    │       ├── home_personal.py
+    │       ├── login.py
+    │       ├── sesion.py
+    │       └── vista_gestion_clientes.py
     ├── tests/
     │   ├── __init__.py
     │   ├── conftest.py
@@ -37,12 +51,17 @@ Directory structure:
     │   ├── deprecated_test_cuenta_ahorro.py
     │   ├── deprecated_test_tarjeta.py
     │   ├── deprecated_test_transaccion.py
+    │   ├── legacy_test_dao.py
+    │   ├── legacy_test_tarjeta.py
+    │   ├── test_autenticacion.py
     │   ├── test_cliente.py
     │   ├── test_cuenta.py
     │   ├── test_cuenta_ahorro.py
-    │   ├── test_dao.py
+    │   ├── test_dao_schema.py
+    │   ├── test_empleado.py
+    │   ├── test_navegacion.py
+    │   ├── test_persona.py
     │   ├── test_propuesta.py
-    │   ├── test_tarjeta.py
     │   └── test_transaccion.py
     └── .github/
         └── workflows/

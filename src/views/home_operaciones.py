@@ -4,11 +4,12 @@ from datetime import datetime
 
 import flet as ft
 
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
-from src.dao_cliente import DAOCliente
-from src.navegacion import crear_bottom_nav, nombre_cuenta_para_header
-from src.sesion import Sesion
+from src.persistencia.dao_cliente import DAOCliente
+from src.persistencia.models import TipoCuentaModel
+from src.controllers.navegacion import crear_bottom_nav, nombre_cuenta_para_header
+from src.views.sesion import Sesion
 
 # Temporal hasta BE-10/11 de Daniel (ver src/dao_cliente.py).
 _dao = DAOCliente("sistema_bancario.db")
@@ -17,7 +18,7 @@ BG_FONDO = "#07040d"
 BG_TARJETA = "#0f081d"
 NEON_PURPLE = "#b026ff"
 NEON_BORDER = "#8c1eff"
-NEON_BG_BTN = "#9d00ff"
+NEON_BG_BTN = "#9d00ff" 
 TEXT_MUTED = "#a0a0a0"
 
 
@@ -42,7 +43,7 @@ def render_home_operaciones(page: ft.Page):
     # Nombres de tipo desde la BD para mapear el toggle a la cuenta real.
     with _dao.connect() as _s:
         from sqlalchemy import select
-        from src.models import TipoCuentaModel
+        
         _tipos = {r.id_tipo_cuenta: r.nombre for r in
                   _s.scalars(select(TipoCuentaModel)).all()}
 
@@ -69,7 +70,7 @@ def render_home_operaciones(page: ft.Page):
             alignment=ft.MainAxisAlignment.CENTER,
             spacing=8,
             controls=[
-                ft.Icon(ft.Icons.ACCOUNT_BALANCE, color="#ffffff", size=18),
+                ft.Icon(ft.icons.ACCOUNT_BALANCE, color="#ffffff", size=18),
                 ft.Text("Corriente", color="#ffffff", weight=ft.FontWeight.W_500, size=13),
             ],
         ),
@@ -85,7 +86,7 @@ def render_home_operaciones(page: ft.Page):
             alignment=ft.MainAxisAlignment.CENTER,
             spacing=8,
             controls=[
-                ft.Icon(ft.Icons.SAVINGS_OUTLINED, color="#ffffff", size=18),
+                ft.Icon(ft.icons.SAVINGS_OUTLINED, color="#ffffff", size=18),
                 ft.Text("Caja de ahorro", color="#ffffff", size=13),
             ],
         ),
@@ -127,7 +128,7 @@ def render_home_operaciones(page: ft.Page):
             alignment=ft.MainAxisAlignment.CENTER,
             spacing=8,
             controls=[
-                ft.Icon(ft.Icons.ARROW_DOWNWARD_ROUNDED, color="#ffffff", size=18),
+                ft.Icon(ft.icons.ARROW_DOWNWARD_ROUNDED, color="#ffffff", size=18),
                 ft.Text("Depositar", color="#ffffff", weight=ft.FontWeight.W_500, size=13),
             ],
         ),
@@ -143,7 +144,7 @@ def render_home_operaciones(page: ft.Page):
             alignment=ft.MainAxisAlignment.CENTER,
             spacing=8,
             controls=[
-                ft.Icon(ft.Icons.ARROW_UPWARD_ROUNDED, color="#ffffff", size=18),
+                ft.Icon(ft.icons.ARROW_UPWARD_ROUNDED, color="#ffffff", size=18),
                 ft.Text("Retirar", color="#ffffff", size=13),
             ],
         ),
@@ -282,4 +283,4 @@ if __name__ == "__main__":
         "apellido": "Fernández",
         "cuentas": [],
     })
-    ft.run(render_home_operaciones)
+    ft.app(render_home_operaciones)

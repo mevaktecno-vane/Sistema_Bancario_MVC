@@ -1,6 +1,6 @@
-from src.cliente import Cliente
-from src.dao import DAO
-from src.models import Base
+from src.models.cliente import Cliente
+from src.persistencia.dao import DAO
+from src.persistencia.models import Base
 
 
 def test_metadata_incluye_todas_las_tablas_del_esquema():

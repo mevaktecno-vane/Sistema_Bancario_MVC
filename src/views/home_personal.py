@@ -3,12 +3,12 @@ import sys
 
 import flet as ft
 
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
-from src.dao_personal import DAOPersonal
-from src.home_crear_cliente import render_gestion_cliente
-from src.navegacion import ir_a
-from src.sesion import Sesion
+from src.persistencia.dao_personal import DAOPersonal
+from src.views.home_crear_cliente import render_gestion_cliente
+from src.controllers.navegacion import ir_a
+from src.views.sesion import Sesion
 
 # Paleta de colores - Capital Bank Desktop Neon
 BG_FONDO = "#0c0b11"
@@ -30,14 +30,14 @@ def _es_personal():
 
 
 def _ir_login(page):
-    from src.login import render_login
+    from src.views.login import render_login
     ir_a(page, render_login)
 
 
 def _aviso(page, texto, ok=True):
     page.snack_bar = ft.SnackBar(
         ft.Text(texto),
-        bgcolor=ft.Colors.GREEN_700 if ok else ft.Colors.RED_700,
+        bgcolor=ft.colors.GREEN_700 if ok else ft.colors.RED_700,
     )
     page.snack_bar.open = True
     page.update()
@@ -122,7 +122,7 @@ def render_home_personal(page: ft.Page):
                     horizontal_alignment=ft.CrossAxisAlignment.CENTER,
                     spacing=1,
                     controls=[
-                        ft.Icon(ft.Icons.SHIELD_OUTLINED, color=BORDE_NEON_BRIGHT, size=24),
+                        ft.Icon(ft.icons.SHIELD_OUTLINED, color=BORDE_NEON_BRIGHT, size=24),
                         ft.Text("CB", size=9, weight=ft.FontWeight.BOLD, color=BORDE_NEON_BRIGHT),
                     ],
                 ),
@@ -190,7 +190,7 @@ def render_home_personal(page: ft.Page):
                         on_click=_nuevo,
                     ),
                     ft.IconButton(
-                        icon=ft.Icons.LOGOUT_ROUNDED,
+                        icon=ft.icons.LOGOUT_ROUNDED,
                         icon_color=COLOR_ENCABEZADO,
                         icon_size=20,
                         tooltip="Cerrar sesión",
@@ -342,7 +342,7 @@ def render_home_personal(page: ft.Page):
 
 
 if __name__ == "__main__":
-    from src.sesion import Sesion
+    from src.views.sesion import Sesion
     Sesion.iniciar({
         "dni": "22233344",
         "rol": "personal",

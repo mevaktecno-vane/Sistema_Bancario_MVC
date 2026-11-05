@@ -4,10 +4,9 @@ import flet as ft
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
-from src.dao_cliente import DAOCliente
-from src.navegacion import crear_bottom_nav, ir_a, nombre_cuenta_para_header
-from src.sesion import Sesion
-
+from src.persistencia.dao_cliente import DAOCliente
+from src.controllers.navegacion import crear_bottom_nav, ir_a, nombre_cuenta_para_header
+from src.views.sesion import Sesion
 # Temporal hasta BE-10/11 de Daniel (ver src/dao_cliente.py).
 _dao = DAOCliente("sistema_bancario.db")
 
@@ -39,7 +38,7 @@ def render_home_historial(page: ft.Page):
 
     usuario = Sesion.actual()
     if not usuario:
-        from src.login import render_login
+        from src.views.login import render_login
         ir_a(page, render_login)
         return
     nombre = usuario.get("nombre", "Cliente")
@@ -48,7 +47,7 @@ def render_home_historial(page: ft.Page):
     # Transacciones reales de la BD, adaptadas al formato de esta vista.
     with _dao.connect() as _s:
         from sqlalchemy import select
-        from src.models import TipoCuentaModel
+        from src.persistencia.models import TipoCuentaModel
         _tipos = {r.id_tipo_cuenta: r.nombre for r in
                   _s.scalars(select(TipoCuentaModel)).all()}
 
@@ -75,7 +74,7 @@ def render_home_historial(page: ft.Page):
 
     def _cerrar_sesion(e):
         Sesion.cerrar()
-        from src.login import render_login
+        from src.views.login import render_login
         ir_a(page, render_login)
 
     def _actualizar_tabla():
@@ -183,7 +182,7 @@ def render_home_historial(page: ft.Page):
                             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
                             spacing=0,
                             controls=[
-                                ft.Icon(ft.Icons.ACCOUNT_BALANCE, size=18, color=NEON_PURPLE),
+                                ft.Icon(ft.icons.ACCOUNT_BALANCE, size=18, color=NEON_PURPLE),
                                 ft.Text("C|B", color=NEON_PURPLE, weight=ft.FontWeight.BOLD, size=9),
                             ],
                         ),
@@ -205,7 +204,7 @@ def render_home_historial(page: ft.Page):
                 content=ft.Row(
                     spacing=6,
                     controls=[
-                        ft.Icon(ft.Icons.LOGOUT, size=14, color=NEON_PURPLE),
+                        ft.Icon(ft.icons.LOGOUT, size=14, color=NEON_PURPLE),
                         ft.Text("Cerrar sesión", size=11, color=NEON_PURPLE),
                     ],
                 ),

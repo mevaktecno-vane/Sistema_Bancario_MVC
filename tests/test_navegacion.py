@@ -1,4 +1,4 @@
-from src.navegacion import nombre_cuenta_para_header
+from src.controllers.navegacion import nombre_cuenta_para_header
 
 
 def test_nombre_cuenta_para_header_usa_mercado_pago():
