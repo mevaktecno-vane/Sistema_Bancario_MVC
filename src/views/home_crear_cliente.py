@@ -407,7 +407,7 @@ def render_gestion_cliente(page: ft.Page, dni=None):
                                 bgcolor=VIOLETA,
                                 alignment=ft.alignment.center,
                                 content=ft.Icon(
-                                    ft.Icons.CHECK,
+                                    ft.icons.CHECK,
                                     color=BLANCO,
                                     size=16,
                                 ),
@@ -544,7 +544,7 @@ def render_gestion_cliente(page: ft.Page, dni=None):
                     color="#90A020F0",
                 ),
                 content=ft.Icon(
-                    ft.Icons.ACCOUNT_BALANCE,
+                    ft.icons.ACCOUNT_BALANCE,
                     color=VIOLETA_CLARO,
                     size=30,
                 ),
@@ -717,4 +717,4 @@ if __name__ == "__main__":
         }
     )
 
-    ft.run(render_gestion_cliente)
+    ft.app(render_gestion_cliente)

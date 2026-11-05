@@ -70,7 +70,7 @@ def render_home_operaciones(page: ft.Page):
             alignment=ft.MainAxisAlignment.CENTER,
             spacing=8,
             controls=[
-                ft.Icon(ft.Icons.ACCOUNT_BALANCE, color="#ffffff", size=18),
+                ft.Icon(ft.icons.ACCOUNT_BALANCE, color="#ffffff", size=18),
                 ft.Text("Corriente", color="#ffffff", weight=ft.FontWeight.W_500, size=13),
             ],
         ),
@@ -86,7 +86,7 @@ def render_home_operaciones(page: ft.Page):
             alignment=ft.MainAxisAlignment.CENTER,
             spacing=8,
             controls=[
-                ft.Icon(ft.Icons.SAVINGS_OUTLINED, color="#ffffff", size=18),
+                ft.Icon(ft.icons.SAVINGS_OUTLINED, color="#ffffff", size=18),
                 ft.Text("Caja de ahorro", color="#ffffff", size=13),
             ],
         ),
@@ -128,7 +128,7 @@ def render_home_operaciones(page: ft.Page):
             alignment=ft.MainAxisAlignment.CENTER,
             spacing=8,
             controls=[
-                ft.Icon(ft.Icons.ARROW_DOWNWARD_ROUNDED, color="#ffffff", size=18),
+                ft.Icon(ft.icons.ARROW_DOWNWARD_ROUNDED, color="#ffffff", size=18),
                 ft.Text("Depositar", color="#ffffff", weight=ft.FontWeight.W_500, size=13),
             ],
         ),
@@ -144,7 +144,7 @@ def render_home_operaciones(page: ft.Page):
             alignment=ft.MainAxisAlignment.CENTER,
             spacing=8,
             controls=[
-                ft.Icon(ft.Icons.ARROW_UPWARD_ROUNDED, color="#ffffff", size=18),
+                ft.Icon(ft.icons.ARROW_UPWARD_ROUNDED, color="#ffffff", size=18),
                 ft.Text("Retirar", color="#ffffff", size=13),
             ],
         ),
@@ -283,4 +283,4 @@ if __name__ == "__main__":
         "apellido": "Fernández",
         "cuentas": [],
     })
-    ft.run(render_home_operaciones)
+    ft.app(render_home_operaciones)

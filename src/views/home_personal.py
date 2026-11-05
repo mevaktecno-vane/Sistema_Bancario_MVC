@@ -37,7 +37,7 @@ def _ir_login(page):
 def _aviso(page, texto, ok=True):
     page.snack_bar = ft.SnackBar(
         ft.Text(texto),
-        bgcolor=ft.Colors.GREEN_700 if ok else ft.Colors.RED_700,
+        bgcolor=ft.colors.GREEN_700 if ok else ft.colors.RED_700,
     )
     page.snack_bar.open = True
     page.update()
@@ -122,7 +122,7 @@ def render_home_personal(page: ft.Page):
                     horizontal_alignment=ft.CrossAxisAlignment.CENTER,
                     spacing=1,
                     controls=[
-                        ft.Icon(ft.Icons.SHIELD_OUTLINED, color=BORDE_NEON_BRIGHT, size=24),
+                        ft.Icon(ft.icons.SHIELD_OUTLINED, color=BORDE_NEON_BRIGHT, size=24),
                         ft.Text("CB", size=9, weight=ft.FontWeight.BOLD, color=BORDE_NEON_BRIGHT),
                     ],
                 ),
@@ -190,7 +190,7 @@ def render_home_personal(page: ft.Page):
                         on_click=_nuevo,
                     ),
                     ft.IconButton(
-                        icon=ft.Icons.LOGOUT_ROUNDED,
+                        icon=ft.icons.LOGOUT_ROUNDED,
                         icon_color=COLOR_ENCABEZADO,
                         icon_size=20,
                         tooltip="Cerrar sesión",

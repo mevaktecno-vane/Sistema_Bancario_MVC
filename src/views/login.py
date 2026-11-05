@@ -1,6 +1,7 @@
 import base64
 import os
 import sys
+import traceback
 
 import flet as ft
 
@@ -63,29 +64,36 @@ def render_login(page: ft.Page):
     )
 
     def on_login_click(e):
-        dni = (dni_input.value or "").strip()
-        clave = (clave_input.value or "").strip()
+        try:
+            dni = (dni_input.value or "").strip()
+            clave = (clave_input.value or "").strip()
 
-        if not dni or not clave:
-            mostrar_mensaje("Por favor ingresa tu DNI y Clave", es_error=True)
-            return
+            if not dni or not clave:
+                mostrar_mensaje("Por favor ingresa tu DNI y Clave", es_error=True)
+                return
 
-        usuario = _autenticacion.autenticar(dni, clave)
-        if usuario is None:
-            mostrar_mensaje("DNI o clave incorrectos", es_error=True)
-            return
+            usuario = _autenticacion.autenticar(dni, clave)
+            if usuario is None:
+                mostrar_mensaje("DNI o clave incorrectos", es_error=True)
+                return
 
-        Sesion.iniciar(usuario)
-        mostrar_mensaje(f"Sesión iniciada como {usuario['rol']}", es_error=False)
+            Sesion.iniciar(usuario)
+            mostrar_mensaje(f"Sesión iniciada como {usuario['rol']}", es_error=False)
 
-        from src.views.home_cliente import render_home_cliente
-        from src.views.home_personal import render_home_personal
-        from src.controllers.navegacion import ir_a
+            from src.views.home_cliente import render_home_cliente
+            from src.views.home_personal import render_home_personal
+            from src.controllers.navegacion import ir_a
 
-        if usuario["rol"] == "cliente":
-            ir_a(page, render_home_cliente)
-        else:
-            ir_a(page, render_home_personal)
+            if usuario["rol"] == "cliente":
+                ir_a(page, render_home_cliente)
+            else:
+                ir_a(page, render_home_personal)
+        except Exception:
+            traceback.print_exc()
+            mostrar_mensaje(
+                "Error inesperado al iniciar sesión. Revisá la consola.",
+                es_error=True,
+            )
 
     def mostrar_mensaje(texto, es_error=False):
         page.snack_bar = ft.SnackBar(
@@ -95,7 +103,7 @@ def render_login(page: ft.Page):
         page.snack_bar.open = True
         page.update()
 
-    btn_ingresar = ft.Button(
+    btn_ingresar = ft.ElevatedButton(
         content=ft.Text("INGRESAR", size=15, weight=ft.FontWeight.BOLD, color="#ffffff"),
         on_click=on_login_click,
         style=ft.ButtonStyle(
@@ -179,4 +187,4 @@ def render_login(page: ft.Page):
     page.add(main_layout)
 
 if __name__ == "__main__":
-    ft.run(render_login)
+    ft.app(render_login)

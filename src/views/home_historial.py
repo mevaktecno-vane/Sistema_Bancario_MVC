@@ -182,7 +182,7 @@ def render_home_historial(page: ft.Page):
                             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
                             spacing=0,
                             controls=[
-                                ft.Icon(ft.Icons.ACCOUNT_BALANCE, size=18, color=NEON_PURPLE),
+                                ft.Icon(ft.icons.ACCOUNT_BALANCE, size=18, color=NEON_PURPLE),
                                 ft.Text("C|B", color=NEON_PURPLE, weight=ft.FontWeight.BOLD, size=9),
                             ],
                         ),
@@ -204,7 +204,7 @@ def render_home_historial(page: ft.Page):
                 content=ft.Row(
                     spacing=6,
                     controls=[
-                        ft.Icon(ft.Icons.LOGOUT, size=14, color=NEON_PURPLE),
+                        ft.Icon(ft.icons.LOGOUT, size=14, color=NEON_PURPLE),
                         ft.Text("Cerrar sesión", size=11, color=NEON_PURPLE),
                     ],
                 ),

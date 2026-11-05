@@ -63,7 +63,7 @@ def render_home_cliente(page: ft.Page):
     )
 
     btn_ojo_total = ft.IconButton(
-        icon=ft.Icons.VISIBILITY_OFF,
+        icon=ft.icons.VISIBILITY_OFF,
         icon_color=NEON_CLARO,
         icon_size=18,
         bgcolor=BORDE_TARJETA,
@@ -77,13 +77,13 @@ def render_home_cliente(page: ft.Page):
             sum(c.get_saldo() for c in cuentas), not oculto_total[0]
         )
         btn_ojo_total.icon = (
-            ft.Icons.VISIBILITY_OFF if oculto_total[0] else ft.Icons.VISIBILITY
+            ft.icons.VISIBILITY_OFF if oculto_total[0] else ft.icons.VISIBILITY
         )
         for i, tarjeta in enumerate(tarjetas):
             visible = _saldo_visible(i)
             tarjeta["lbl_saldo"].value = _texto_saldo(cuentas[i].get_saldo(), visible)
             tarjeta["btn_ojo"].icon = (
-                ft.Icons.VISIBILITY_OFF if not visible else ft.Icons.VISIBILITY
+                ft.icons.VISIBILITY_OFF if not visible else ft.icons.VISIBILITY
             )
         page.update()
 
@@ -116,7 +116,7 @@ def render_home_cliente(page: ft.Page):
             color="#ffffff",
         )
         btn_ojo = ft.IconButton(
-            icon=ft.Icons.VISIBILITY_OFF,
+            icon=ft.icons.VISIBILITY_OFF,
             icon_color=NEON_CLARO,
             icon_size=16,
             bgcolor=BORDE_TARJETA,
@@ -294,4 +294,4 @@ if __name__ == "__main__":
         "apellido": "Fernández",
         "cuentas": [],
     })
-    ft.run(render_home_cliente)
+    ft.app(render_home_cliente)

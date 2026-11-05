@@ -41,9 +41,9 @@ def main(page: ft.Page):
         page.snack_bar = ft.SnackBar(
             content=ft.Text(texto),
             bgcolor=(
-                ft.Colors.RED_700
+                ft.colors.RED_700
                 if error
-                else ft.Colors.GREEN_700
+                else ft.colors.GREEN_700
             ),
         )
 

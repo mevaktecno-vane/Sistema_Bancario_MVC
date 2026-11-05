@@ -1,3 +1,5 @@
+import traceback
+
 import flet as ft
 
 # Estilo unificado de la botonera (diseño de Zafiro): pill con borde neón.
@@ -8,10 +10,27 @@ TEXT_MUTED = "#a0a0a0"
 
 def ir_a(page: ft.Page, render_vista):
     """Limpia la página y renderiza la vista indicada (navegación entre vistas)."""
-    page.clean()
-    page.update()
-    render_vista(page)
-    page.update()
+    try:
+        page.scroll = None
+        page.clean()
+        page.update()
+        render_vista(page)
+        page.update()
+    except Exception:
+        traceback.print_exc()
+        try:
+            page.clean()
+            page.add(
+                ft.Text(
+                    "No se pudo cargar la pantalla. Revisá la consola para ver el error.",
+                    color="#f87171",
+                    size=14,
+                    text_align=ft.TextAlign.CENTER,
+                )
+            )
+            page.update()
+        except Exception:
+            traceback.print_exc()
 
 
 def nombre_cuenta_para_header(nombre_cuenta=None):
@@ -68,9 +87,9 @@ def crear_bottom_nav(page: ft.Page, activo: str):
         border_radius=30,
         content=ft.Row(
             controls=[
-                _nav_btn(ft.Icons.HOME_OUTLINED, "Inicio", activo == "inicio", on_click=ir_inicio),
-                _nav_btn(ft.Icons.SWAP_HORIZ, "Operar", activo == "operar", on_click=ir_operar),
-                _nav_btn(ft.Icons.SCHEDULE, "Historial", activo == "historial", on_click=ir_historial),
+                _nav_btn(ft.icons.HOME_OUTLINED, "Inicio", activo == "inicio", on_click=ir_inicio),
+                _nav_btn(ft.icons.SWAP_HORIZ, "Operar", activo == "operar", on_click=ir_operar),
+                _nav_btn(ft.icons.SCHEDULE, "Historial", activo == "historial", on_click=ir_historial),
             ],
         ),
     )
